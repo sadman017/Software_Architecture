@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: Gym Management API
+  version: 1.0.0
+  description: API for managing gym members, trainers, classes, payments, and equipment.
+servers:
+  - url: https://api.gymmanagement.com/v1
+paths:
+  /members:
+    get:
+      summary: Get a list of all members
+      responses:
+        "200":
+          description: A list of members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+  /trainers:
+    get:
+      summary: Get a list of all trainers
+      responses:
+        "200":
+          description: A list of trainers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Trainer"
+  # Add more endpoints for other models...
+components:
+  schemas:
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        membership_start_date:
+          type: string
+          format: date
+        membership_end_date:
+          type: string
+          format: date
+        membership_type:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive]
+    Trainer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        specialization:
+          type: string
+        hire_date:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [active, inactive]
+    MembershipPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        duration:
+          type: string
+        price:
+          type: number
+          format: float
+        description:
+          type: string
+    Class:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        trainer_id:
+          type: integer
+        schedule:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        max_capacity:
+          type: integer
+        current_attendance:
+          type: integer
+    Attendance:
+      type: object
+      properties:
+        id:
+          type: integer
+        member_id:
+          type: integer
+        class_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [present, absent]
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        member_id:
+          type: integer
+        amount:
+          type: number
+          format: float
+        payment_date:
+          type: string
+          format: date
+        payment_method:
+          type: string
+        status:
+          type: string
+          enum: [paid, unpaid]
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        purchase_date:
+          type: string
+          format: date
+        last_maintenance_date:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [available, under_maintenance]
